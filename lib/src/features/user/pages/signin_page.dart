@@ -49,7 +49,8 @@ class SigninPage extends StatelessWidget {
                     if (!formKey.currentState!.validate()) {
                       return;
                     }
-                    controller.sendCaptchaByEmail();
+                    controller.sendCaptchaByEmail()
+                        .then((value) => Get.toNamed("/signin/captcha"));
                   },
                   child: const Text("获取验证码")),
             ),

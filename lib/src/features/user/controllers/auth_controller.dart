@@ -1,32 +1,49 @@
 import 'package:get/get.dart';
-import 'package:poem/src/features/article/models/article_model.dart';
 
 class AuthController extends GetxController{
+  // signin page
   final isChecked = false.obs;
   final email = "".obs;
   final error = Rxn<String>();
-  final list = <ArticleModel>[].obs;
+
+  // captcha page
+  final captcha = "".obs;
+  final isSended = false.obs;
 
   @override
   void onInit() {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    isSended.value = false;
+    super.onClose();
+  }
+
   void setEmail(String e) {
     email.value = e;
   }
+
+  void setCaptcha(String c) {
+    captcha.value = c;
+  }
+
   void setIsChecked(bool? checked) {
     if (checked != null) {
       isChecked.value = checked;
     }
   }
 
-  Future<void> signinByEmail() async {
-    Get.snackbar("sign in", email.value);
+  Future<void> sendCaptchaByEmail() async {
+    Get.snackbar("sendCaptchaByEmail", captcha.value);
   }
 
-  Future<void> sendCaptchaByEmail() async {
-    Get.snackbar("sendCaptchaByEmail", email.value);
+  Future<void> signinByEmail() async {
+    Get.snackbar("sign in", email.value);
+    isSended.value = true;
   }
+
+
 
 }
