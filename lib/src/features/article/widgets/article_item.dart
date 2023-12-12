@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poem/src/features/article/models/article_model.dart';
 
 class ArticleItem extends StatelessWidget{
-  final int index;
-  const ArticleItem({super.key, required this.index});
+  final ArticleModel article;
+  const ArticleItem({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed("/article/$index");
+        Get.toNamed("/article/${article.id}");
       },
       child: Container(
         color: Colors.white,
@@ -20,21 +21,21 @@ class ArticleItem extends StatelessWidget{
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("title",
-                  style: TextStyle(
+                Text(article.title,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 20,
                   ),
                 ),
                 // const SizedBox(height: 8),
                 Row(children: [
-                  Text("author",
+                  Text(article.author,
                     style: TextStyle(
                       color: Colors.grey.shade500,
                     ),
                   ),
                 ]),
                 const SizedBox(height: 8),
-                Text("title3title3title3title3title3title3title3title3title3title3title3title3title3title3title3title3title3title3",
+                Text(article.content,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -50,8 +51,8 @@ class ArticleItem extends StatelessWidget{
               height: 76,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: const DecorationImage(
-                      image: NetworkImage("https://www.wjbrain.com/storage/images/8ae7ca55310d59e4a9083dc8b3b51f63.jpg"))
+                  image: DecorationImage(
+                      image: NetworkImage(article.cover))
               ),
             )
           ],

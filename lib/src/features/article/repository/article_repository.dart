@@ -18,7 +18,7 @@ class ArticleRepository extends GetConnect{
     if (resp.status.hasError) {
       return Future.error(Exception(resp.statusText));
     }
-    final data = resp.body['data'] as List;
+    final data = resp.body as List;
     return data.map((e) => ArticleModel.fromJson(e)).toList();
   }
 }
