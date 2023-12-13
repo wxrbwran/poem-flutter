@@ -69,7 +69,18 @@ class AuthController extends GetxController{
     } finally {
       isLoading.value = false;
     }
-    // isSended.value = true;
   }
 
+  Future<void> signOut() async {
+    try {
+      isLoading.value = true;
+      await repo.signOut();
+      await userController.clearUser();
+    } catch (e) {
+      setError("signinByEmail fail: $e");
+      debugPrint(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

@@ -23,8 +23,21 @@ class UserController extends GetxController{
     super.onClose();
   }
 
+  void setError(String? e) {
+    error.value = e;
+  }
+
+  bool hasAuthed() {
+    return user.value != null;
+  }
+
   Future<void> loadUser() async {
     user.value = await readUserToStorage();
+  }
+
+  Future<void> clearUser() async {
+      user.value = null;
+      await sp.remove(AppConstants.userStorageKey);
   }
 
   Future<void> setAndSaveUser(UserModel? userModel) async {
@@ -46,10 +59,6 @@ class UserController extends GetxController{
        return UserModel.fromJson(user);
      }
      return null;
-  }
-
-  void setError(String? e) {
-    error.value = e;
   }
 
 

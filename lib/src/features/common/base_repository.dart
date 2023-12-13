@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:poem/src/features/article/app_config.dart';
+import 'package:poem/src/config/app_config.dart';
 
 class BaseRepository extends GetConnect{
   final logger = Logger(
@@ -18,11 +18,11 @@ class BaseRepository extends GetConnect{
   void onInit() {
     httpClient.baseUrl = AppConfig.baseUrl;
     httpClient.addRequestModifier<void>((request) {
-      logger.d("method: ${request.method},\nurl: ${request.url},\nheaders: ${request.headers},\nbodyBytes: ${request.bodyBytes}, ");
+      logger.d("method: ${request.method},\nurl: ${request.url},\nheaders: ${request.headers},\nbodyBytes: ${request.bodyBytes}");
       return request;
     });
     httpClient.addResponseModifier((request, response) {
-      logger.d("status: ${response.status},\nstatusText: ${response.statusText},\nbody: ${response.body}, ");
+      logger.d("status: ${response.status},\nstatusText: ${response.statusText},\nbody: ${response.body.toString()}");
       return response;
     });
     super.onInit();

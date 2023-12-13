@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:poem/src/features/user/controllers/auth_controller.dart';
+import 'package:poem/src/features/user/controllers/user_controller.dart';
+import 'package:poem/src/features/user/models/user_model.dart';
 import 'package:poem/src/features/user/widgets/navigation_item.dart';
 
 class UserPage extends StatelessWidget {
@@ -6,6 +10,8 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userController = Get.find<UserController>();
+    final authController = Get.put(AuthController());
     return Scaffold(
       backgroundColor: const Color(0xfff1f2f3),
       appBar: AppBar(
@@ -17,37 +23,37 @@ class UserPage extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          _buildInfo(),
+          Obx(() => _buildInfo(userController.user.value)),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           const SliverToBoxAdapter(child:
             NavigationItem(title: "VIP", icon: Icons.diamond, link: '/vip')),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           _buildAgreements(),
-          _buildSignOut(),
+          _buildSignOut(authController),
         ],
       ),
     );
   }
 
-  Widget _buildInfo() {
+  Widget _buildInfo(UserModel? userModel) {
     return SliverToBoxAdapter(
       child: Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        child: const Row(
+        child: Row(
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundImage: NetworkImage("http://dummyimage.com/200x200"),
+              backgroundImage: NetworkImage(userModel?.avatar ?? "http://dummyimage.com/200x200"),
             ),
-            SizedBox(width: 12,),
+            const SizedBox(width: 12,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("wxr",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                SizedBox(height: 6,),
-                Text("signsignsignsignsign~"),
+                Text(userModel?.name ?? "用户名",
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 6,),
+                Text(userModel?.bio ?? "用户签名"),
               ],
             )
           ],
@@ -83,10 +89,17 @@ class UserPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSignOut() {
+  Widget _buildSignOut(AuthController authController) {
     return SliverToBoxAdapter(
       child: FilledButton(
-        onPressed: () {},
+        onPressed: () async {
+          try {
+            await authController.signOut();
+            Get.offNamed("/signin");
+          } catch(e) {
+            debugPrint("$e");
+          }
+        },
         child: const Text("退出登录"),
       ),
     );

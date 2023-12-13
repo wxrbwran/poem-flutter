@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:poem/src/features/article/app_config.dart';
+import 'package:poem/src/config/app_config.dart';
 import 'package:poem/src/features/article/models/article_model.dart';
 
 class ArticleRepository extends GetConnect{

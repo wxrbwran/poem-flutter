@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:poem/src/features/user/controllers/auth_controller.dart';
 import 'package:poem/src/features/user/controllers/user_controller.dart';
-import 'package:poem/src/routes.dart';
+import 'package:poem/src/routes/routes.dart';
 
 void main() async {
   await GetStorage.init();
   Get.put(UserController(), permanent: true);
+
   runApp(const MyApp());
 }
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/signin",
+      initialRoute: "/",
       getPages: AppRoute.pages,
     );
   }

@@ -35,4 +35,12 @@ class AuthRepository extends BaseRepository{
     final data = resp.body;
     return UserModel.fromJson(data);
   }
+
+  Future<void> signOut() async {
+    const url = "/auth/signout";
+    final resp = await post(url, {});
+    if (resp.status.hasError) {
+      return Future.error(Exception(resp.statusText));
+    }
+  }
 }
