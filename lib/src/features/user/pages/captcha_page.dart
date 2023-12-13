@@ -62,7 +62,7 @@ class CaptchaPage extends StatelessWidget {
                 ],
                 onCompleted: (v) {
                   debugPrint("Completed");
-                  controller.signinByEmail();
+                  controller.signinByEmail().then((value) => Get.toNamed("/"));
                 },
                 onChanged: (value) {
                   debugPrint(value);

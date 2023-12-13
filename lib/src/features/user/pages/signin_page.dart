@@ -22,6 +22,7 @@ class SigninPage extends StatelessWidget {
             Form(
               key: formKey,
               child: TextFormField(
+                initialValue: controller.email.value,
                 onChanged: (v) {controller.setEmail(v);},
                 validator: (v) {
                   if (v == null || v.isEmpty) {

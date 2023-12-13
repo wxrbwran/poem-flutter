@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:poem/src/features/user/controllers/user_controller.dart';
 import 'package:poem/src/routes.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
+  Get.put(UserController(), permanent: true);
   runApp(const MyApp());
 }
 
