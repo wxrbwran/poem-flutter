@@ -1,5 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:poem/src/features/user/controllers/user_controller.dart';
 import 'package:poem/src/features/user/repository/settings_repository.dart';
 
@@ -10,6 +16,8 @@ class SettingsController extends GetxController{
   final name = "".obs;
   final bio = "".obs;
   final sex = 0.obs;
+  final file = Rxn<File>();
+  final avatar = "".obs;
 
   final error = Rxn<String>();
   final isLoading = false.obs;
@@ -42,6 +50,22 @@ class SettingsController extends GetxController{
     bio.value = n;
   }
 
+  void setAvatar(String n) {
+    avatar.value = n;
+  }
+
+  Future<void> saveAvatar(String n) async {
+    try {
+      isLoading.value = true;
+      await repo.changeAvatar(n);
+      userController.changeAvatar(n);
+    } catch (e) {
+      setError("saveName fail: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> saveName(String n) async {
     try {
       isLoading.value = true;
@@ -72,9 +96,46 @@ class SettingsController extends GetxController{
       await repo.changeSex(n);
       userController.changeSex(n);
     } catch (e) {
-      setError("saveBio fail: $e");
+      setError("saveSex fail: $e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> pickAndCropImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    try{
+      final image = await picker.pickImage(source: source);
+      debugPrint("$image");
+      if (image != null) {
+        debugPrint(image.path);
+        final croppedFile = await ImageCropper().cropImage(
+          sourcePath: image.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: '裁剪图片',
+                toolbarColor: Colors.deepOrange,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(
+              title: '裁剪图片',
+            ),
+          ],
+        );
+        if (croppedFile != null){
+          file.value = File(croppedFile.path);
+        }
+      }
+    } catch (e) {
+      debugPrint("$e");
     }
   }
 }

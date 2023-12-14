@@ -44,6 +44,8 @@ dependencies:
   get_storage: ^2.1.1
   logger: ^2.0.2+1
   webview_flutter: ^4.4.2
+  image_picker: ^1.0.5
+  image_cropper: ^5.0.1
 
 dev_dependencies:
   flutter_test:

@@ -32,6 +32,13 @@ class UserController extends GetxController{
     return user.value != null;
   }
 
+  Future<void> changeAvatar(String n) async {
+    if (user.value != null) {
+      user.value = user.value!.copyWith(avatar: n);
+      setAndSaveUser(user.value);
+    }
+  }
+
   Future<void> changeName(String n) async {
     if (user.value != null) {
       user.value = user.value!.copyWith(name: n);

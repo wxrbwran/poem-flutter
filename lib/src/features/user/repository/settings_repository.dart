@@ -11,6 +11,16 @@ class SettingsRepository extends BaseRepository{
   static SettingsRepository get to => Get.find();
   final userController = Get.find<UserController>();
 
+  Future<void> changeAvatar(String avatar) async {
+    const url = "/user/edit/avatar";
+    final resp = await put(url, {
+      "avatar": avatar,
+    });
+    if (resp.status.hasError) {
+      return Future.error(Exception(resp.statusText));
+    }
+  }
+
   Future<void> changeName(String name) async {
     const url = "/user/edit/name";
     final resp = await put(url, {

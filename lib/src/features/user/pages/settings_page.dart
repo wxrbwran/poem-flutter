@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:poem/src/config/colors.dart';
 import 'package:poem/src/config/constants.dart';
 import 'package:poem/src/features/enums/sex_enum.dart';
@@ -15,6 +16,13 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
     final settings = [
+      {
+        "title": "头像",
+        "tailing": Obx(() => CircleAvatar(
+            backgroundImage: NetworkImage(userController.user.value?.avatar ?? ""),
+        )),
+        "onTap": ()  => changeAvatar(context),
+      },
       {
         "title": "昵称",
         "tailing": Obx(() => Text(userController.user.value?.name ?? "")),
@@ -45,10 +53,78 @@ class SettingsPage extends StatelessWidget {
                   onTap: settings[index]["onTap"] as Function(),
                   tailing: settings[index]["tailing"] as Widget,
               ),
-              separatorBuilder: (context, index) => SizedBox(height: 12)
+              separatorBuilder: (context, index) => const SizedBox(height: 12)
           )
         ],
       ),
+    );
+  }
+
+  void changeAvatar(BuildContext context) {
+    final controller = Get.find<SettingsController>();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Container(
+          height: 400,
+          child: CustomScrollView(
+            slivers: [
+              Obx(() => SliverToBoxAdapter(
+                  child: controller.file.value == null ?
+                  Container() :
+                  Container(
+                    height: 200,
+                    width: 72,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: FileImage(
+                          controller.file.value!,
+                        )
+                      ),
+                    ),
+                  )
+              )),
+              SliverToBoxAdapter(
+                child: Container(
+                  color: Colors.white,
+                  child: TextButton(
+                    onPressed: () {
+                      controller.pickAndCropImage(ImageSource.gallery);
+                    },
+                    child: Text("从相册选取"),
+                  ),
+                ),
+              ),
+              SliverGap(12),
+              SliverToBoxAdapter(
+                child: Container(
+                  color: Colors.white,
+                  child: TextButton(
+                    onPressed: () {
+                      controller.pickAndCropImage(ImageSource.camera);
+                    },
+                    child: Text("拍摄"),
+                  ),
+                ),
+              ),
+              const SliverGap(12),
+              SliverToBoxAdapter(
+                child: Container(
+                  color: Colors.white,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("取消"),
+                  ),
+                ),
+              ),
+            ]
+          ),
+        )
+      )
     );
   }
 
