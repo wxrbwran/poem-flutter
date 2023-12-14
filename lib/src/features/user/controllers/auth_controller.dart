@@ -17,15 +17,7 @@ class AuthController extends GetxController{
   final captcha = "222".obs;
   final isSended = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void setError(String? e) {
     error.value = e;

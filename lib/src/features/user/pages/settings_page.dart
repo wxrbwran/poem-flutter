@@ -155,7 +155,7 @@ class SettingsPage extends StatelessWidget {
                               hintText: "请输入名字",
                             ),
                             validator: (v) {
-                              if (v == null || v!.isEmpty)  {
+                              if (v == null || v.isEmpty)  {
                                 return "名字不能为空";
                               }
                               return null;
@@ -235,7 +235,7 @@ class SettingsPage extends StatelessWidget {
                                 hintText: "请输入签名",
                               ),
                               validator: (v) {
-                                if (v == null || v!.isEmpty)  {
+                                if (v == null || v.isEmpty)  {
                                   return "签名不能为空";
                                 }
                                 return null;

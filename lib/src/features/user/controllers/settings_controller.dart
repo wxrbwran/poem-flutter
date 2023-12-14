@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -24,15 +23,7 @@ class SettingsController extends GetxController{
   final sp = GetStorage();
 
 
-  @override
-  void onInit() async {
-    super.onInit();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void setError(String? e) {
     error.value = e;
