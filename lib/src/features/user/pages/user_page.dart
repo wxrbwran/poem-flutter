@@ -17,7 +17,9 @@ class UserPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("用户"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code_scanner)),
+          IconButton(onPressed: () {
+            Get.toNamed("/settings");
+          }, icon: const Icon(Icons.settings)),
           const SizedBox(width: 12,)
         ],
       ),
@@ -67,12 +69,12 @@ class UserPage extends StatelessWidget {
       {
         "title": "隐私协议",
         "icon": Icons.privacy_tip,
-        "link": "/agreement/privacy"
+        "link": "/agreement?kind=privacy"
       },
       {
         "title": "用户协议",
         "icon": Icons.article,
-        "link": "/agreement/user"
+        "link": "/agreement?kind=user"
       },
     ];
     return SliverList.separated(

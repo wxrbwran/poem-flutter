@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:poem/src/config/constants.dart';
 import 'package:poem/src/features/user/models/user_model.dart';
-import 'package:poem/src/features/user/repository/auth_repository.dart';
 
 class UserController extends GetxController{
   final user = Rxn<UserModel>();
@@ -29,6 +30,27 @@ class UserController extends GetxController{
 
   bool hasAuthed() {
     return user.value != null;
+  }
+
+  Future<void> changeName(String n) async {
+    if (user.value != null) {
+      user.value = user.value!.copyWith(name: n);
+      setAndSaveUser(user.value);
+    }
+  }
+
+  Future<void> changeBio(String n) async {
+    if (user.value != null) {
+      user.value = user.value!.copyWith(bio: n);
+      setAndSaveUser(user.value);
+    }
+  }
+
+  Future<void> changeSex(int n) async {
+    if (user.value != null) {
+      user.value = user.value!.copyWith(sex: n);
+      setAndSaveUser(user.value);
+    }
   }
 
   Future<void> loadUser() async {
@@ -60,7 +82,5 @@ class UserController extends GetxController{
      }
      return null;
   }
-
-
 
 }

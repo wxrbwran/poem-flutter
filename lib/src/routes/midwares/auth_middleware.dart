@@ -11,7 +11,11 @@ class AuthMiddleware extends GetMiddleware {
       '/signin',
       "/signin/captcha"
     ];
-    if (userController.hasAuthed() || whiteList.contains(route)) {
+    if (
+      userController.hasAuthed() ||
+      whiteList.contains(route) ||
+      (route != null && route.startsWith('/signin?from='))
+    ) {
       return null;
     }
     return RouteSettings(name: "/signin?from=$route");
