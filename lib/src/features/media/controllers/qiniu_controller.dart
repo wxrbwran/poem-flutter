@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:qiniu_flutter_sdk/qiniu_flutter_sdk.dart';
 import 'package:poem/src/features/user/models/user_model.dart';
@@ -48,10 +50,11 @@ class QiniuController extends GetxController{
     error.value = e;
   }
 
-  // Future<void> upload() async {
-  //   // 使用 storage 的 putFile 对象进行文件上传
-  //   storage.putFile(File('./file.txt'), 'TOKEN', PutOptions(
-  //     controller: putController,
-  //   ))
-  // }
+
+  Future<void> upload(File file) async {
+    // 使用 storage 的 putFile 对象进行文件上传
+    storage.putFile(file, 'TOKEN', options:PutOptions(
+      controller: putController,
+    ));
+  }
 }
